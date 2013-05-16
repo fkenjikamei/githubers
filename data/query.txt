@@ -1,0 +1,12 @@
+https://bigquery.cloud.google.com/
+
+
+https://github.com/igrigorik/githubarchive.org/tree/master/bigquery
+
+
+SELECT actor_attributes_login 
+FROM [githubarchive:github.timeline]
+where actor_attributes_name != ""
+and REGEXP_MATCH(actor_attributes_location,
+r'(brasil|brazil|Sao Paulo|Rio de Janeiro)')
+
