@@ -6,19 +6,16 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
-import com.google.gson.annotations.SerializedName;
 
 public class User {
 	private String login;
 	private String company;
 	private String location;
 	private String language;
-	private boolean hireable;
-
-	@SerializedName("public_repos")
-	private int public_repos;
-	private int followers;
-	private int following;
+	private Boolean hireable;
+	private Integer publicRepos;
+	private Integer followers;
+	private Integer following;
 	private String yearOfContributions = "0";
 	private String longestStreak = "0";
 	private String currentStreak = "0";
@@ -153,23 +150,11 @@ public class User {
 	}
 
 	public int getPublic_repos() {
-		return public_repos;
+		return publicRepos;
 	}
 
-	public void setpublic_repos(int public_repos) {
-		this.public_repos = public_repos;
-	}
-
-	public String toString() {
-		return "(" + login + ", " + language + ")";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((login == null) ? 0 : login.hashCode());
-		return result;
+	public void setPublic_repos(int public_repos) {
+		this.publicRepos = public_repos;
 	}
 
 	public Project[] getProjects() {
@@ -201,9 +186,21 @@ public class User {
 		return true;
 	}
 
+	public String toString() {
+		return "(" + login + ", " + language + ")";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((login == null) ? 0 : login.hashCode());
+		return result;
+	}
+
 	public String[] toArray() {
 		String[] array = { login, company, location, language, hireable + "",
-				public_repos + "", followers + "", following + "",
+				publicRepos + "", followers + "", following + "",
 				yearOfContributions, longestStreak, currentStreak };
 
 		return array;

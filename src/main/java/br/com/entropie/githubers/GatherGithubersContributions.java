@@ -8,6 +8,7 @@ import br.com.entropie.githubers.model.Project;
 import br.com.entropie.githubers.model.User;
 import br.com.entropie.githubers.model.Users;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -17,7 +18,8 @@ public class GatherGithubersContributions {
 	private static final String USERS_API = "https://api.github.com/users/";
 	private static final String TOKEN = "?access_token=914f27563c751aa8a129216ff0f5427f005dc75c";
 
-	private final Gson gson = new Gson();
+	private final Gson gson =  new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+	
 	private final CSVOutput output = new CSVOutput();
 	private final GatherIndividualContribuitions contributions = new GatherIndividualContribuitions();
 
@@ -26,24 +28,19 @@ public class GatherGithubersContributions {
 		try {
 			System.out.println("Total of: " + users.total());
 
-			int i = 0;
 			for (User user : users.getUsers()) {
 
 				String login = user.getLogin();
-				
-				User newUser = new Gson().fromJson(getPersonalInfo(login), User.class);
-				newUser = contributions.from(user);
+
+				User newUser = gson.fromJson(getPersonalInfo(login), User.class);
+				newUser = contributions.from(newUser);
 				newUser.setLanguage(user.getLanguage());
 
 				Project[] project = gson.fromJson(getProjectsInfo(login), Project[].class);
 				newUser.setProjects(project);
 
-				githubers.add(user);
-				System.out.format("User %s.. Done!\n", user.getLogin());
-				if (i == 10) {
-					break;
-				}
-				i++;
+				githubers.add(newUser);
+				System.out.format("User %s.. Done!\n", newUser.getLogin());
 			}
 
 			output.saveAsCSV(githubers);
@@ -54,7 +51,8 @@ public class GatherGithubersContributions {
 
 	private String getProjectsInfo(String login) {
 		String url = String.format(REPO_API, login, TOKEN);
-		return Requests.get(url);
+		String out = Requests.get(url);
+		return out;
 	}
 
 	private String getPersonalInfo(String login) {

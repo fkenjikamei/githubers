@@ -46,8 +46,8 @@ public class GatherIndividualContribuitions {
 
 		for (int i = 0; i < 12; i++) {
 
-			int fromMonth = (4 + i);
-			int toMonth = (5 + i);
+			int fromMonth = (5 + i);
+			int toMonth = (6 + i);
 
 			int fromYear = 2012;
 			int toYear = 2012;
@@ -62,10 +62,11 @@ public class GatherIndividualContribuitions {
 				toYear = 2013;
 			}
 
+			String fMonth = String.valueOf(fromMonth < 10 ? "0" + fromMonth : fromMonth);
+			String tMonth = String.valueOf(toMonth < 10 ? "0" + toMonth : toMonth);
+
 			String periodo = String.format(
-					"?tab=contributions&from=%s-%s-31&to=%s-%s-31", fromYear,
-					fromMonth < 10 ? "0" + fromMonth : fromMonth, toYear,
-					toMonth < 10 ? "0" + toMonth : toMonth);
+					"?tab=contributions&from=%s-%s-31&to=%s-%s-31", fromYear, fMonth, toYear, tMonth);
 
 			String url = GITHUB + user.getLogin() + periodo;
 
@@ -99,10 +100,10 @@ public class GatherIndividualContribuitions {
 			if (contribution == 0 && value.contains("Pull Requests")) {
 				String metric = Jsoup.parse(value).text();
 				return Integer.parseInt(metric.split(" ")[0]);
-			} else if (contribution == 1 && value.contains("Issues Reported")) {
+			} else if (contribution == 1 && value.contains("Commits")) {
 				String metric = Jsoup.parse(value).text();
 				return Integer.parseInt(metric.split(" ")[0]);
-			} else if (contribution == 2 && value.contains("Commits")) {
+			} else if (contribution == 2 && value.contains("Issue Reported")) {
 				String metric = Jsoup.parse(value).text();
 				return Integer.parseInt(metric.split(" ")[0]);
 			}
@@ -113,7 +114,7 @@ public class GatherIndividualContribuitions {
 
 	public static void main(String[] args) {
 		User user = new User();
-		user.setLogin("gustavopinto");
+		user.setLogin("rsn86");
 		user = new GatherIndividualContribuitions().from(user);
 		System.out.println(new Gson().toJson(user));
 	}
