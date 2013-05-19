@@ -69,6 +69,8 @@ public class GatherIndividualContribuitions {
 					"?tab=contributions&from=%s-%s-31&to=%s-%s-31", fromYear, fMonth, toYear, tMonth);
 
 			String url = GITHUB + user.getLogin() + periodo;
+			
+			System.out.println(url);
 
 			try {
 
@@ -97,10 +99,10 @@ public class GatherIndividualContribuitions {
 		for (int i = 0; i < elements.size(); i++) {
 			String value = elements.get(i).text();
 
-			if (contribution == 0 && value.contains("Pull Requests")) {
+			if (contribution == 0 && value.contains("Commits")) {
 				String metric = Jsoup.parse(value).text();
 				return Integer.parseInt(metric.split(" ")[0]);
-			} else if (contribution == 1 && value.contains("Commits")) {
+			} else if (contribution == 1 && value.contains("Pull Requests")) {
 				String metric = Jsoup.parse(value).text();
 				return Integer.parseInt(metric.split(" ")[0]);
 			} else if (contribution == 2 && value.contains("Issue Reported")) {
@@ -114,7 +116,7 @@ public class GatherIndividualContribuitions {
 
 	public static void main(String[] args) {
 		User user = new User();
-		user.setLogin("rsn86");
+		user.setLogin("paulocheque");
 		user = new GatherIndividualContribuitions().from(user);
 		System.out.println(new Gson().toJson(user));
 	}
