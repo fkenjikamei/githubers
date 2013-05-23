@@ -28,7 +28,7 @@ public class CSVOutput {
 		CSVWriter writer = new CSVWriter(new FileWriter(Dir.ROOT
 				+ "githubers_projects.csv"), ';');
 
-		String[] titles = { "user_id", "fork", "created_at", "updated_at",
+		String[] titles = { "user_id", "project", "fork", "created_at", "updated_at",
 				"pushed_at", "size", "watchers_count", "language",
 				"has_issues", "has_downloads", "open_issues_count",
 				"open_issues", "forks", "watchers" };
@@ -39,7 +39,7 @@ public class CSVOutput {
 			Project[] projects = user.getProjects();
 
 			for (Project project : projects) {
-				writer.writeNext(project.toArray(user.getLogin()));
+				writer.writeNext(project.toArray(user));
 			}
 		}
 

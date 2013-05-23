@@ -70,7 +70,7 @@ public class GatherIndividualContribuitions {
 
 			String url = GITHUB + user.getLogin() + periodo;
 			
-			System.out.println(url);
+//			System.out.println(url);
 
 			try {
 

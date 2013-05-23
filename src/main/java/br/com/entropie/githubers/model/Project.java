@@ -3,6 +3,7 @@ package br.com.entropie.githubers.model;
 public class Project {
 
 	private long id;
+	private String name;
 	private boolean fork;
 	private String createdAt;
 	private String updatedAt;
@@ -129,8 +130,16 @@ public class Project {
 		this.watchers = watchers;
 	}
 
-	public String[] toArray(String login) {
-		String[] array = { login, fork + "", createdAt, updatedAt, pushed_at,
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String[] toArray(User login) {
+		String[] array = { login.getLogin(), name, fork + "", createdAt, updatedAt, pushed_at,
 				size + "", watchersCount + "", language, hasIssues + "",
 				hasDownloads + "", openIssuesCount + "", openIssues + "",
 				forks + "", watchers + "" };
